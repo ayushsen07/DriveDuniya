@@ -1,0 +1,32 @@
+
+# Node.js and React specific
+node_modules/
+package-lock.json
+yarn.lock
+
+# Logs and temp files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+*.lock
+*.pid
+
+# Build output
+build/
+dist/
+
+# Optional files
+.env
+.cache
+.DS_Store
+
+# Coverage reports
+coverage/
+
+# Editor and tool specific
+.vscode/
+.idea/
+
+# System files
+Thumbs.db
