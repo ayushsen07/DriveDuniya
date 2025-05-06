@@ -123,6 +123,52 @@ const loginUser = async (req, res) => {
 };
 
 
+
+//UPDATE PROFILE
+const updateProfile = async (req, res) => {
+    try{
+        const { name, email, phone } = req.body;
+
+        const exsistingUser = await User.findOne({email, _id : {$ne : req.user._id}})
+
+        if (exsistingUser){
+            return res.status(400).json({
+                success: false,
+                message: 'Email alread in use'
+            })
+        }
+        
+        const user = await User.findByIdAndUpdate(
+            req.user._id,
+            { name, email, phone },
+            { new: true }
+        ).select('-password');
+
+        res.json({
+            success: true,
+            message: 'Profile updated successfully',
+            data: {
+                user: {
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    phone: user.phone,
+                    joinedDate: user.createdAt
+                }
+            }
+        })
+    }
+    catch(error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+
+
+// CHAMGE PASSWORD
 const changePassword = async (req, res)=>{
  try {
     const {currentPassword, newPassword} = req.body;
@@ -161,5 +207,6 @@ const changePassword = async (req, res)=>{
 module.exports = {
     registerUser,
     loginUser,
+    updateProfile,
     changePassword
 }
