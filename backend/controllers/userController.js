@@ -63,11 +63,11 @@ const registerUser = async (req, res) => {
 // LOGIN USER
 
 const loginUser = async (req, res) => {
-    console.log("login user is called");
+    // console.log("login user is called");
 
     try {
         const { email, password } = req.body;
-        console.log("email is", email);
+        // console.log("email is", email);
 
         // Check for missing fields → return early
         if (!email || !password) {
@@ -128,8 +128,10 @@ const loginUser = async (req, res) => {
 const updateProfile = async (req, res) => {
     try{
         const { name, email, phone } = req.body;
+        console.log("update profile is called");
+        
 
-        const exsistingUser = await User.findOne({email, _id : {$ne : req.user._id}})
+        const exsistingUser = await userModel.findOne({email, _id : {$ne : req.user._id}})
 
         if (exsistingUser){
             return res.status(400).json({
@@ -138,11 +140,14 @@ const updateProfile = async (req, res) => {
             })
         }
         
-        const user = await User.findByIdAndUpdate(
+        const user = await userModel.findByIdAndUpdate(
             req.user._id,
             { name, email, phone },
             { new: true }
         ).select('-password');
+
+        console.log("updated user is", user);
+        
 
         res.json({
             success: true,
@@ -184,7 +189,7 @@ const changePassword = async (req, res)=>{
 
     // for updation of password
     user.password=newPassword;
-    await user.sace()
+    await user.save()
     res.json({
         success:true,
         message:"Password is changed successfully"

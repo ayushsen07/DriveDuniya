@@ -1,5 +1,5 @@
 const userModel = require('../models/userModel')
-const verifyToken = require('../utills/jwt')
+const {verifyToken} = require('../utills/jwt')
 
 exports.protect = async(req,res,next)=>{
     const authHeader = req.headers.authorization;
@@ -26,6 +26,8 @@ exports.protect = async(req,res,next)=>{
     //verify token
 
     const decoded = verifyToken(token);
+    console.log("token is verified");
+    
     if(!decoded){
         return res.status(401).json({
             message:"Invalid or expired token"
@@ -33,6 +35,8 @@ exports.protect = async(req,res,next)=>{
     }
 
     const user = await userModel.findById(decoded.id)
+    console.log('user is ', user);
+    
 
     if(!user){
         res.status(401).json({
