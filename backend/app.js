@@ -17,16 +17,18 @@ app.use('/uploads', express.static(path.join(__dirname,'uploads')))
 
 
 // Routes import
-const userRouter = require('./routes/userRoutes')
-const homeRouter = require('./routes/homeRoutres')
-
+const userRoutes = require('./routes/userRoutes')
+const homeRoutes = require('./routes/homeRoutres')
+const adminRoutes = require('./routes/adminRoutes')
 
 
 // Routes declaration
-app.use('/api/v1/users', userRouter)
+app.use('/api/v1',homeRoutes)
+// http://localhost:3000/api/v1
+app.use('/api/v1/users', userRoutes)
 // http://localhost:3000/api/v1/users/register
-app.use('/api/v1',homeRouter)
-    
+app.use('/api/v1/admin',adminRoutes)
+// http://localhost:3000/api/v1/admin
 
 
 
